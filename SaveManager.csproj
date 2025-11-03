@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{86606CE0-A0EB-471C-AB7C-A68D3A8FD572}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>SaveManager</RootNamespace>
+        <AssemblyName>SaveManager</AssemblyName>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="Assembly-CSharp" HintPath="$(BB_REFERENCES)\Assembly-CSharp.dll" />
+        <Reference Include="Facepunch.Steamworks.Win64" HintPath="$(BB_REFERENCES)\Facepunch.Steamworks.Win64.dll" />
+        <Reference Include="BBModMenu" HintPath="$(BB_REFERENCES)\BBModMenu.dll" />
+        <Reference Include="MelonLoader" HintPath="$(BB_REFERENCES)\MelonLoader.dll" />
+        <Reference Include="UnityEngine" HintPath="$(BB_REFERENCES)\UnityEngine.dll" />
+        <Reference Include="UnityEngine.CoreModule" HintPath="$(BB_REFERENCES)\UnityEngine.CoreModule.dll" />
+        <Reference Include="UnityEngine.IMGUIModule" HintPath="$(BB_REFERENCES)\UnityEngine.IMGUIModule.dll" />
+        <Reference Include="UnityEngine.UI" HintPath="$(BB_REFERENCES)\UnityEngine.UI.dll" />
+        <Reference Include="UnityEngine.UIElementsModule" HintPath="$(BB_REFERENCES)\UnityEngine.UIElementsModule.dll" />
+        <Reference Include="Unity.InputSystem" HintPath="$(BB_REFERENCES)\Unity.InputSystem.dll" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="SaveManagerMod.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include=".gitignore" />
+      <Content Include="MOD\SaveManager.dll" />
+      <Content Include="Photo\How it works.gif" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+</Project>
