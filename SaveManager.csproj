@@ -42,6 +42,7 @@
         <Reference Include="MelonLoader" HintPath="$(BB_REFERENCES)\MelonLoader.dll" />
         <Reference Include="UnityEngine" HintPath="$(BB_REFERENCES)\UnityEngine.dll" />
         <Reference Include="UnityEngine.CoreModule" HintPath="$(BB_REFERENCES)\UnityEngine.CoreModule.dll" />
+        <Reference Include="UnityEngine.PhysicsModule" HintPath="$(BB_REFERENCES)\UnityEngine.PhysicsModule.dll" />
         <Reference Include="UnityEngine.IMGUIModule" HintPath="$(BB_REFERENCES)\UnityEngine.IMGUIModule.dll" />
         <Reference Include="UnityEngine.UI" HintPath="$(BB_REFERENCES)\UnityEngine.UI.dll" />
         <Reference Include="UnityEngine.UIElementsModule" HintPath="$(BB_REFERENCES)\UnityEngine.UIElementsModule.dll" />

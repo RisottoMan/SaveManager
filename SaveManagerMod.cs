@@ -12,12 +12,16 @@ namespace SaveManager
     {
         public static GameModeManager gameModeManager;
         
-        private bool keyPressed;
         private Vector3 lastPosition;
         private Quaternion lastRotation;
 
+        private bool keyPressed = false;
         private string saveKey;
         private string loadKey;
+        private string currentMap;
+        
+        private GameObject startObject;
+        private GameObject endObject;
 
         public override void OnLateInitializeMelon()
         {
@@ -73,29 +77,103 @@ namespace SaveManager
         
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            keyPressed = false;
             gameModeManager = GameObject.Find("Managers").GetComponent<GameModeManager>();
             base.OnSceneWasLoaded(buildIndex, sceneName);
         }
 
-        public override void OnLateUpdate()
+        public override void OnUpdate()
+        {
+            // While the player is in the menu
+            if (GameModeManager.Instance.IsGameModeActive<MenuGameMode>())
+                return;
+            
+            CheckCurrentMap();
+            CheckPlayerPosition();
+        }
+
+        private void CheckPlayerPosition()
         {
             PlayerController player =  gameModeManager.player;
+
+            // Player is in Scouting mode
+            if (player.IsFlying)
+                return;
             
             // Save the player position on the ground
-            if (Utils.IsHotkeyPressed(saveKey) && player.isGrounded)
+            if (Utils.IsHotkeyPressed(saveKey) 
+                && player.isGrounded)
             {
                 keyPressed = true;
                 lastPosition = player.transform.position;
-                lastRotation = player.transform.rotation;
-            }
+                lastRotation = player.cam.transform.rotation;
 
+                SpawnStartBlock(lastPosition);
+            }
+            
             // Teleport the player to the last position
             if (Utils.IsHotkeyPressed(loadKey) && keyPressed)
             {
+                SpawnFinishBlock(player.transform.position);
+                
                 player.transform.position = lastPosition;
-                player.transform.rotation = lastRotation;
+                player.SetCamRotation(0.0f, lastRotation.eulerAngles.y);
             }
+        }
+
+        private void CheckCurrentMap()
+        {
+            // Check custom map
+            string map = MapEditor.Instance.mapDirPath.Split('\\', '/').Last();
+            if (map == "")
+            {
+                // Check original game maps
+                switch (PlayerStats.Instance.CurrentStatsMode)
+                {
+                    case PlayerStats.StatsMode.Main:
+                        map = "Beton Brutal";
+                        break;
+                    
+                    case PlayerStats.StatsMode.DLC1:
+                        map = "Beton Bath";
+                        break;
+                    
+                    case PlayerStats.StatsMode.Birthday:
+                        map = "Beton Birthday";
+                        break;
+                }
+            }
+            
+            if (currentMap != map)
+            {
+                keyPressed = false;
+                currentMap = map;
+            }
+        }
+
+        private void SpawnStartBlock(Vector3 position)
+        {
+            if (startObject is null)
+            {
+                startObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                startObject.GetComponent<MeshRenderer>().material.color = new Color(0, 50, 0, 0.05f);
+                startObject.GetComponent<CapsuleCollider>().enabled = false;
+                startObject.transform.localScale = new Vector3(0.1f, 1f, 0.1f);
+            }
+            
+            startObject.transform.position = position;
+        }
+
+        private void SpawnFinishBlock(Vector3 position)
+        {
+            if (endObject is null)
+            {
+                endObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                endObject.GetComponent<MeshRenderer>().material.color = new Color(50, 0, 0, 0.05f);
+                endObject.GetComponent<CapsuleCollider>().enabled = false;
+                endObject.transform.localScale = new Vector3(0.1f, 1f, 0.1f);
+            }
+            
+            endObject.transform.position = position;
         }
     }
 }
